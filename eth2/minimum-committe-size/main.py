@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from math import ceil
 plt.style.use('ggplot')
 
 
@@ -29,7 +30,7 @@ y = []
 label_1 = None
 label_2 = None
 for i in range(100, 300):
-    two_third = int(i * 2/3)
+    two_third = ceil(i * 2/3)
     p = probgte(i, two_third, 1/3)
     x.append(i)
     y.append(p)
