@@ -1,6 +1,5 @@
+from gallery import config
 import matplotlib.pyplot as plt
-
-plt.style.use('ggplot')
 
 
 SHARD_COUNT = 1024
@@ -21,7 +20,7 @@ num_validators = list(range(200000))
 committee_count = list(map(get_committee_count, num_validators))
 committee_size = [v//c for v, c in zip(num_validators, committee_count)]
 
-plt.figure(figsize=(15, 10))
+
 ax = plt.subplot(211)
 ax.plot(num_validators,  committee_count)
 ax.vlines(MIN_VALIDATOR, ymin=0, ymax=1024, linestyles='dotted')

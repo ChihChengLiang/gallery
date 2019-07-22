@@ -1,7 +1,6 @@
+from gallery import config
 import matplotlib.pyplot as plt
 from math import ceil
-plt.style.use('ggplot')
-
 
 
 #
@@ -14,12 +13,15 @@ def fac(n):
 # If 'choose' is not efficient enough, use 'comb' from scipy
 # from scipy.special import comb
 # choose = comb
+
+
 def choose(n, k):
     return fac(n) // fac(k) // fac(n-k)
 
 
 def prob(n, k, p):
     return p**k * (1-p)**(n-k) * choose(n, k)
+
 
 def probgte(n, k, p):
     return sum([prob(n, i, p) for i in range(k, n+1)])
