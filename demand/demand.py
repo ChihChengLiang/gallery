@@ -33,17 +33,14 @@ left = 0
 for i, item in enumerate(result_sorted):
     gas, gas_price = item["gas"], item["gasPrice"]
     if gas_price < current_price:
-        print(i, left, cummulated_gas, current_price)
         rect = Rectangle((left, 0), cummulated_gas - left, current_price)
         rectangles.append(rect)
         current_price = gas_price
         left = cummulated_gas
     cummulated_gas += gas
 
-print(cummulated_gas, "cummulated_gas")
-
 pc = PatchCollection(rectangles)
-print(len(rectangles), "len rects")
+pc2 = PatchCollection(rectangles)
 
 @ticker.FuncFormatter
 def gwei_formatter(x, pos):
@@ -53,7 +50,7 @@ def gwei_formatter(x, pos):
 def million_formatter(x, pos):
     return int(x // 10**6)
 
-
+plt.figure(0, figsize=(8, 8), dpi=100)
 ax = plt.subplot(111)
 plt.xlabel('Gas (Million Gas)')
 plt.ylabel('Gas Price (Gwei)')
@@ -70,4 +67,23 @@ ax.set_ylim(0, gas_price_max)
 ax.yaxis.set_major_formatter(gwei_formatter)
 ax.add_collection(pc)
 
-plt.savefig('demand.png')
+plt.savefig('demand_4096.png')
+
+plt.figure(1, figsize=(8, 8), dpi=100)
+ax = plt.subplot(111)
+plt.xlabel('Gas (Million Gas)')
+plt.ylabel('Gas Price (Gwei)')
+plt.title('Some Pending Txs, Sept 5, 2020')
+
+ax.axvline(x=BLOCK_SIZE)
+ax.annotate('block gas limit', xy=(BLOCK_SIZE, 300 * GWEI), xytext=(BLOCK_SIZE * 0.6,  300 * GWEI),
+            arrowprops=dict(facecolor='black', shrink=0.05),
+            )
+
+ax.set_xlim(0, BLOCK_SIZE*1.25)
+ax.xaxis.set_major_formatter(million_formatter)
+ax.set_ylim(0, gas_price_max)
+ax.yaxis.set_major_formatter(gwei_formatter)
+ax.add_collection(pc2)
+
+plt.savefig('demand_block.png')
